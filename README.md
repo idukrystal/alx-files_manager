@@ -1,2 +1,3 @@
-# alx-files_manager
-an alx project: creating file manager using node backend 
+# Files Manager Api
+
+A working file management api using redis and mongodb
