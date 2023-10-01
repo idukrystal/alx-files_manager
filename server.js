@@ -9,5 +9,5 @@ const router = require('./routes/index');
 app.use('/', router);
 
 app.listen(port, () => {
-  console.log(`server now listening on port ${port}`)
+  console.log(`server now listening on port ${port}`);
 });
