@@ -35,6 +35,25 @@ class DBClient {
     const count = await files.countDocuments();
     return count;
   }
+
+  async addUser(email, password) {
+    
+    const newId = await this.db.collection('users').insertOne(
+      {
+        "email": email,
+        "password": password,
+      },
+    );
+    
+  }
+  async getUser(email) {
+    const users = await this.db.collection('users');
+    const user = users.find({"email": email});
+    console.log(user);
+    if (user == undefined)
+      return false;
+    return true;
+  }
 }
 
 const dbClient = new DBClient();

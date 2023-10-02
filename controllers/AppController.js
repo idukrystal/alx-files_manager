@@ -3,6 +3,7 @@ const cache = require('../utils/redis');
 
 class AppController {
   static getStatus(req, res) {
+    console.log('>>> geting status');
     const dbIsAlive = db.isAlive();
     const cacheIsAlive = cache.isAlive();
     if (dbIsAlive && cacheIsAlive) {
