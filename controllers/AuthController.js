@@ -26,7 +26,7 @@ class AuthController {
     }
     else {
       const authToken = uuid4();
-      cache.set(authToken, userId, 60 * 60 *24);
+      cache.set(`auth_${authToken}`, userId, 60 * 60 *24);
       res.status(200).json({token: authToken});
     }
   }
