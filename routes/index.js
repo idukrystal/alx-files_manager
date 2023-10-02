@@ -1,4 +1,3 @@
-
 import { Router, json } from 'express';
 
 import AppController from '../controllers/AppController';
