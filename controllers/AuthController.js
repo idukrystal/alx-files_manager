@@ -7,14 +7,20 @@ import {v4 as uuid4} from 'uuid';
 class AuthController {
   static async basicAuth (req) {
     const auth = req.get('Authorization');
-    if (auth !== undefined && auth.indexOf('Basic ') !== -1) {
+    if (auth !== undefined && auth.indexOf('Basic ') === 0) {
       const base64Credentials = auth.split(' ')[1];
-      const credentials = Buffer.from(
-        base64Credentials, 'base64'
-      ).toString('ascii');
-      const [ name, password ] = credentials.split(':');
-      const userID = await dbClient.validateLogin(name, sha1(password));
-      return userID;
+      if (base64Credentials !== undefined) {
+        const credentials = Buffer.from(
+          base64Credentials, 'base64'
+        ).toString('ascii');
+        const [ name, password ] = credentials.split(':');
+        if (name !== undefined && password !== undefined) {
+          const userID = await dbClient.validateLogin(
+            name, sha1(password)
+          );
+          return userID;
+        }
+      }
     }
     return null;
   }
@@ -38,7 +44,7 @@ class AuthController {
       if (userId !== null) {
         const user = await dbClient.getUser({_id: ObjectId(userId)});
         if (user !== null) {
-          cache.del(token);
+          cache.del(`auth_${token}`);
           res.status(204).send();
           return;
         }
