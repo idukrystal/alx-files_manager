@@ -1,5 +1,9 @@
 import sha1 from 'sha1';
 
+import { ObjectId } from 'mongodb'
+
+import cache from '../utils/redis';
+
 import dbClient from '../utils/db';
 
 class UsersController {
@@ -20,6 +24,26 @@ class UsersController {
         email,
       });
     }
+  }
+
+
+  static async getMe(req, res) {
+    const token = req.get('X-Token');
+    if (token !== undefined) {
+      const userId = await cache.get(token);
+      if (userId !== undefined) {
+        const user = await dbClient.getUser(
+          { _id: ObjectId(userId) }
+        );
+        if (user !== null) {
+          res.status(200).json(
+            { id: user._id.toString(), email: user.email}
+          );
+          return;
+        }
+      }
+    }
+    res.status(401).json({ error: 'Unauthorized' });
   }
 }
 

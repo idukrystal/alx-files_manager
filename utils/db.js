@@ -43,18 +43,28 @@ class DBClient {
     return newIdObj.insertedId;
   }
 
-  async getUser(email) {
+  async getUser(query) {
     const users = this.db.collection('users');
-    const user = await users.findOne({ email });
+    const user = await users.findOne(query);
     return user;
   }
 
+  async validateLogin(email, password) {
+    const users = this.db.collection('users');
+    const user = await users.findOne({ email, password });
+    if (user !== null) {
+      return user._id.toString();
+    }
+    return null;
+  }
+
   async userExists(email) {
-    if (await this.getUser(email) != null) {
+    if (await this.getUser({ email }) != null) {
       return true;
     }
     return false;
   }
 }
+
 const dbClient = new DBClient();
 module.exports = dbClient;
