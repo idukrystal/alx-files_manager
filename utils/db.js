@@ -25,36 +25,36 @@ class DBClient {
   }
 
   async nbUsers() {
-    const users = await this.db.collection('users');
+    const users = this.db.collection('users');
     const count = await users.countDocuments();
     return count;
   }
 
   async nbFiles() {
-    const files = await this.db.collection('files');
+    const files = this.db.collection('files');
     const count = await files.countDocuments();
     return count;
   }
 
   async addUser(email, password) {
-    
-    const newId = await this.db.collection('users').insertOne(
-      {
-        "email": email,
-        "password": password,
-      },
+    const newIdObj = await this.db.collection('users').insertOne(
+      { email, password },
     );
-    
+    return newIdObj.insertedId;
   }
+
   async getUser(email) {
-    const users = await this.db.collection('users');
-    const user = users.find({"email": email});
-    console.log(user);
-    if (user == undefined)
-      return false;
-    return true;
+    const users = this.db.collection('users');
+    const user = await users.findOne({ email });
+    return user;
+  }
+
+  async userExists(email) {
+    if (await this.getUser(email) != null) {
+      return true;
+    }
+    return false;
   }
 }
-
 const dbClient = new DBClient();
 module.exports = dbClient;
