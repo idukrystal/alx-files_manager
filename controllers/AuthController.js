@@ -34,7 +34,7 @@ class AuthController {
   static async getDisconnect(req, res) {
     const token = req.get('X-Token');
     if (token !== undefined) {
-      const userId = await cache.get(token);
+      const userId = await cache.get(`auth_${token}`);
       if (userId !== null) {
         const user = await dbClient.getUser({_id: ObjectId(userId)});
         if (user !== null) {

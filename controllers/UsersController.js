@@ -30,7 +30,7 @@ class UsersController {
   static async getMe(req, res) {
     const token = req.get('X-Token');
     if (token !== undefined) {
-      const userId = await cache.get(token);
+      const userId = await cache.get(`auth_${token}`);
       if (userId !== undefined) {
         const user = await dbClient.getUser(
           { _id: ObjectId(userId) }
