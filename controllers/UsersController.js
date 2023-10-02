@@ -13,7 +13,7 @@ class UsersController {
     } else if (await dbClient.userExists(email)) {
       res.json({ error: 'Already exist' });
     } else {
-      res.status(200);
+      res.status(201);
       const newId = await dbClient.addUser(email, sha1(password));
       res.json({
         id: newId,
