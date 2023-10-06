@@ -52,12 +52,18 @@ class FilesController {
             }
             else {
               const path = process.env.FOLDER_PATH || '/tmp/files_manager';
+              const fileName = uuid4();
+              fs.write(`${path}/fileName`, (err) => {
+                if (err) {
+                }
+                console.log("done");
+              });
               
             }
             
           }
         }
-l      }
+      }
     }
     res.json({ error });
   }
