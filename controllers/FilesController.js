@@ -3,10 +3,6 @@ const cache = require('../utils/redis');
 import { ObjectId } from 'mongodb';
 const fs = require('fs');
 
-
-
-
-
 class FilesController {
   static async postUpload(req, res) {
     res.status(401);
@@ -26,7 +22,7 @@ class FilesController {
           else if(type  === undefined) {
             error = "Missing type";
           }
-          else if(data === undefined && type !=== 'folder') {
+          else if(data === undefined && type !== 'folder') {
             error = 'Missing data';
           }
           else {
