@@ -52,6 +52,8 @@ class FilesController {
               const fileName = uuid4();
               fs.write(`${path}/fileName`, (err) => {
                 if (err) {
+                  console.log("errror")
+                  console.error(err)
                 }
                 console.log("done");
               });
