@@ -5,14 +5,18 @@ const fs = require('fs');
 
 class FilesController {
   static async postUpload(req, res) {
+    console.log("point A")
     res.status(401);
     const error = "Unauthorized";
     const token = req.get('X-Token');
     if (token !== undefined) {
+      console.log("point B")
       const userId = await cache.get(`auth_${token}`);
       if (userId !== null) {
+        console.log("point C")
         const user = await db.getUser({_id: ObjectId(userId)});
         if (user != null) {
+          
           res.status(400);
           const {name, type, data, parentId} = req.body;
           console.log("this is name of file >>", file.name, file);
