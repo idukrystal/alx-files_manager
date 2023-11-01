@@ -43,8 +43,9 @@ class FilesController {
             else {
               parentId = 0;
             }
+            res.status(201)
             if (type === 'folder') {
-              db.addFile();
+              db.addFile(userId, name, type, parentId, isPublic, );
             }
             else {
               const path = process.env.FOLDER_PATH || '/tmp/files_manager';

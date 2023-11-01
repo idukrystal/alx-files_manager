@@ -65,7 +65,7 @@ class DBClient {
     return false;
   }
 
-  async addFile(name, type, parentId, isPublic, data) {
+  async addFile(userId, name, type, parentId, isPublic, data) {
     parentId = parentId || 0;
     const newIdObj = await this.db.collections('files').insertOne(
       { name, type, parentId, isPublic, data }
